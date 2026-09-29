@@ -3,7 +3,7 @@ from pyspark.sql.types import *
 from pyspark.sql.window import *
 
 #Ej1-b
-def ejercicio1_b(spark_session):
+def ejercicio1b(spark_session):
 
     df = (
         spark_session.read

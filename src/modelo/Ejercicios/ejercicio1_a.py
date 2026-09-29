@@ -1,7 +1,7 @@
 from pyspark.sql.functions import *
 
 #Ej1-a
-def ejercicio1_a(spark_session):
+def ejercicio1a(spark_session):
 
     df = (
         spark_session.read

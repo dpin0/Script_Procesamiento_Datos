@@ -3,7 +3,7 @@ from pyspark.sql.types import *
 from pyspark.sql.window import *
 
 #Ej1-c
-def ejercicio1_c(spark_session):
+def ejercicio1c(spark_session):
 
     #definir strucType (tipo de dato/ columna y nombre o siglas/ empresa)
     schema = StructType([

@@ -2,16 +2,22 @@ from pyspark.sql.functions import *
 from pyspark.sql.types import *
 from pyspark.sql.window import *
 
-def ejercicio2_a(spark_session):
-
-    #Carga de los datos del CSV en DataFrame de PySpark
-    df = (
-        spark_session.read
-        .option("header", True)
-        .option("sep", ';')
-        .option("dateFormat","dd/MM/yyyy")
-        .csv('ibex35_close-2024.csv')
-    )
-    #Ej2-a
+#Ej2-a
+def ejercicio2a(df):
+    
     df.select(countDistinct("namecol"))
     df.distinct()
+
+    filas_0 = df.count()
+    df = df.dropDuplicates()
+    filas_1 = df.count()
+
+    filas_borradas = filas_0 - filas_1
+    print("Filas eliminadas:", filas_borradas)
+
+    #N de empresas
+    n_empresas = len(df.columns) - 1 #para quitar la fecha
+
+    print("Empresas de las que se tiene información:", n_empresas)
+
+    return df
