@@ -1,52 +1,10 @@
-import jaydebeapi
+from pyspark.sql import SparkSession
 
-class Conexion:
-  def __init__(self, host='localhost', database='Datos2024', user= 'sa', password = 'olacaracola'):
-    self._host = host
-    self._database = database
-    self._user = user
-    self._password = password
-    self.conexion = self.createConnection()
+path = r".\lib\mysql-connector-j-9.4.0.jar"
 
-  def createConnection(self):
-    try:
-      jdbc_driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-      jar_file = r".\lib\mssql-jdbc-13.4.0.jre11.jar"
-      url = f"jdbc:sqlserver://{self._host}:1433;databaseName=Datos2024;encrypt=true;trustServerCertificate=true;" 
-      
-      self.conexion = jaydebeapi.connect(
-        jdbc_driver,
-        url,
-        [self._user, self._password],
-        jar_file
-      )
-      print("Conexión realizada con éxito")  
-      return self.conexion
-          
-    except Exception as e:
-      print("Error creando conexión:", e)
-      return None
-
-  def getCursor(self):
-    if self.conexion is None:
-      self.createConnection()
-    return self.conexion.cursor()
-
-def closeConnection(self):
-  try:
-    if self.conexion:
-      self.conexion.close()
-      self.conexion = None
-  except Exception as e:
-    print("Error cerrando conexión ->", e)
-
-if __name__ == "__main__":
-  print("Comenzando conexión con Datos2024 ->")
-  db = Conexion()
-
-
-
-
-
-
-  
+spark_session = (
+    SparkSession.builder
+    .appName("IBEX35")
+    .config("spark.driver.extraClassPath", path)
+    .getOrCreate()
+)
