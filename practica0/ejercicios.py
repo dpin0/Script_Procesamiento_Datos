@@ -46,6 +46,7 @@ schema = StructType([
     StructField("Iberdrola", DecimalType(10, 2), True),
     StructField("Repsol", DecimalType(10, 2), True),
     StructField("Naturgy", DecimalType(10, 2), True),
+    # Uso de IA: Claude para crear el resto de StructFields de las empresas
     StructField("Endesa", DecimalType(10, 2), True),
     StructField("Enagas", DecimalType(10, 2), True),
     StructField("Redeia", DecimalType(10, 2), True),
