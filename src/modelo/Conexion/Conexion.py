@@ -1,10 +1,8 @@
-from pyspark.sql import SparkSession
 
-path = r".\lib\mysql-connector-j-9.4.0.jar"
+url = "jdbc:sqlserver://localhost:1433;databaseName=IBEX35;encrypt=true;trustServerCertificate=true;"
 
-spark_session = (
-    SparkSession.builder
-    .appName("IBEX35")
-    .config("spark.driver.extraClassPath", path)
-    .getOrCreate()
-)
+propiedades = {
+    "driver": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "user": "sa",
+    "password": "olacaracola"
+}
