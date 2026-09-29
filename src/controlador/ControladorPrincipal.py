@@ -1,2 +1,4 @@
-def ControladorPrincipal():
+
+
+class ControladorPrincipal():
     pass
