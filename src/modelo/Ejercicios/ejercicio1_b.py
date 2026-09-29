@@ -2,10 +2,9 @@ from pyspark.sql.functions import *
 from pyspark.sql.types import *
 from pyspark.sql.window import *
 
+#Ej1-b
+def ejercicio1_b(spark_session):
 
-def ejercicio3(sparck_session):
-
-    #Carga de los datos del CSV en DataFrame de PySpark
     df = (
         spark_session.read
         .option("header", True)
@@ -14,10 +13,12 @@ def ejercicio3(sparck_session):
         .csv('ibex35_close-2024.csv')
     )
 
-#Ej3 - a
+    #eliminar sufijo .MC de los nombres de cada columna
 
-# 'Fecha' -> 'Día'
+    for i in df.columns:
+        nuevo_nombre = i.replace(".MC", "")
+        df = df.withColumnRenamed(i, nuevo_nombre)
 
-df.show(10)
+    df.show(6)
 
-#Ej3 - b
+    return df

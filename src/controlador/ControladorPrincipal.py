@@ -1,8 +1,8 @@
 from src.modelo.Conexion.spark_session import create_spark_session
-from src.modelo.Ejercicios.ejercicio1-a import ejercicio1a
-from src.modelo.Ejercicios.ejercicio1-b import ejercicio1b
-from src.modelo.Ejercicios.ejercicio1-c import ejercicio1c
-from src.modelo.Ejercicios.ejercicio2-a import ejercicio2a
+from src.modelo.Ejercicios.ejercicio1_a import ejercicio1a
+from src.modelo.Ejercicios.ejercicio1_b import ejercicio1b
+from src.modelo.Ejercicios.ejercicio1_c import ejercicio1c
+from src.modelo.Ejercicios.ejercicio2_a import ejercicio2a
 from src.modelo.Ejercicios.ejercicio3 import ejercicio3
 from src.modelo.Ejercicios.ejercicio4 import ejercicio4
 from src.modelo.Ejercicios.ejercicio5 import ejercicio5
@@ -20,6 +20,7 @@ def ControladorPrincipal():
     ejercicio4(spark_session)
     ejercicio5(spark_session)
     ejercicio6(spark_session)
+
     spark_session.stop()
 
 

@@ -2,8 +2,7 @@ from pyspark.sql.functions import *
 from pyspark.sql.types import *
 from pyspark.sql.window import *
 
-
-def ejercicio3(sparck_session):
+def ejercicio2_a(spark_session):
 
     #Carga de los datos del CSV en DataFrame de PySpark
     df = (
@@ -13,11 +12,6 @@ def ejercicio3(sparck_session):
         .option("dateFormat","dd/MM/yyyy")
         .csv('ibex35_close-2024.csv')
     )
-
-#Ej3 - a
-
-# 'Fecha' -> 'Día'
-
-df.show(10)
-
-#Ej3 - b
+    #Ej2-a
+    df.select(countDistinct("namecol"))
+    df.distinct()
