@@ -8,7 +8,7 @@ def ejercicio3(df):
     #Ej3-a
     print("Ej3-a")
     #'Fecha' -> 'Día'
-    df = df.withColumnRenamed("Fecha", "Dia")
+    df = df.withColumnRenamed("Fecha", "Dia").orderBy("Dia")
     df.show(10)
 
     #media, max y min

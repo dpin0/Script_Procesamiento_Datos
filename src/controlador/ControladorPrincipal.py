@@ -35,9 +35,11 @@ def ControladorPrincipal():
     df = ejercicio2b(df)
     
     df = ejercicio3(df)
+    conexion.escribir_tabla(df.drop("Deficiency Notice UNI"), "Datos2024", "overwrite")
+    
     ejercicio4(df)
     df = ejercicio5(df)
-    conexion.escribir_tabla(df.drop("Deficiency Notice UNI"), "Datos2024_mod", "overwrite")
+    
     print("FIN")
     spark_session.stop()
 
