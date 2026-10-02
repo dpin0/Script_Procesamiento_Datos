@@ -58,11 +58,14 @@ def ejercicio4(df):
         .when(col("Variación Anual") <= -1, "Bajada")
         .otherwise("Neutra")
     )
-
-    #USO DE IA: Chat GPT -> no conseguí que funcionase resultado.show(truncate = False) y le pedi ayuda para generar un print con el resultado
+    
+    '''
+    USO DE IA: Chat GPT -> no conseguí que funcionase resultado.show(truncate = False) y lo usé
+    para generar un print que mostrase por pantalla la tabla resultado
+    '''
     print(">>> RESULTADO EJERCICIO 4")
     print("Empresa | Inicial | Final | Variación Anual | Clasificación")
-
+    
     for fila in filas:
         empresa, inicial, final, variacion = fila
 
