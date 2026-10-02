@@ -21,7 +21,7 @@ def ejercicio3a(df):
 
     df = df.withColumn(
         "Deficiency Notice UNI",
-        when(col("`UNI.MC`") < 1, True).otherwise(False)
+        when(col("UNI") < 1, True).otherwise(False)
     )
     df.show(100)
 

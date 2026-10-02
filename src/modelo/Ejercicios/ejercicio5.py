@@ -14,10 +14,9 @@ def ejercicio5(df):
     ]
 
     for c in empresas:
-        nombre = c.replace(".MC", "")
         q1, q2, q3 = df.approxQuantile(f"`{c}`", [0.25, 0.5, 0.75], 0.01)
         df = df.withColumn(
-            f"{nombre}Cuartil",
+            f"{c}Cuartil",
             when(col(f"`{c}`").isNull(), lit(None))
             .when(col(f"`{c}`") <= q1, "q1")
             .when(col(f"`{c}`") <= q2, "q2")
@@ -28,8 +27,8 @@ def ejercicio5(df):
     print(df.head(1)[0])
 
     df.select(
-        col("`AENA.MC`"), col("AENACuartil"),
-        col("`BBVA.MC`"), col("BBVACuartil")
+        col("AENA"), col("AENACuartil"),
+        col("BBVA"), col("BBVACuartil")
     ).show(df.count(), truncate=False)
     
     return df

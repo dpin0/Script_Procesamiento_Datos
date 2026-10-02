@@ -3,7 +3,7 @@ from pyspark.sql.types import *
 from pyspark.sql.window import *
 
 #Ej1-c
-def ejercicio1c(spark_session):
+def ejercicio1c(df):
 
     #definir strucType (tipo de dato/ columna y nombre o siglas/ empresa)
     schema = StructType([
@@ -47,15 +47,11 @@ def ejercicio1c(spark_session):
         StructField("Merlin_Properties", DecimalType(10, 2), True),
     ])
     
-    df_c = (spark_session.read
-                .option("header", True)
-                .option("sep", ';')
-                .option("dateFormat", "dd/MM/yyyy")
-                .schema(schema)
-                .csv('ibex35_close-2024.csv'))
-
-    #mostrar estructura y 6 primeras filas
-    df_c.printSchema()
-    df_c.show(6)
+    df_c = df.select(
+        to_date(col("Fecha"), "dd/MM/yyyy").alias("Fecha"),
+        *[col(c).cast("decimal(10,2)").alias(c) for c in df.columns if c != "Fecha"]
+    )
+    df_c.printSchema()   
+    df.show(6)
 
     return df_c

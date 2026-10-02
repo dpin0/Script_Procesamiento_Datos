@@ -5,9 +5,6 @@ from pyspark.sql.window import *
 #Ej2-a
 def ejercicio2a(df):
     
-    df.select(countDistinct("namecol"))
-    df.distinct()
-
     filas_0 = df.count()
     df = df.dropDuplicates()
     filas_1 = df.count()

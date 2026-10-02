@@ -8,7 +8,7 @@ def ejercicio1a(spark_session):
         .option("header", True)
         .option("sep", ';')
         .option("dateFormat","dd/MM/yyyy")
-        .csv('ibex35_close-2024.csv')
+        .csv('data/ibex35_close-2024.csv')
     )
 
     #Esquema para comprobar el tipo de cada columna

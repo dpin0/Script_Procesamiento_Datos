@@ -3,18 +3,10 @@ from pyspark.sql.functions import *
 from pyspark.sql.types import *
 from pyspark.sql.window import *
 
-
 def ejercicio4(df):
     spark = SparkSession.builder.getOrCreate()
 
-    df = (
-        spark.read
-        .option("header", True)
-        .option("sep", ";")
-        .option("inferSchema", True)
-        .option("dateFormat", "dd/MM/yyyy")
-        .csv("data/ibex35_close-2024.csv")
-    )
+    fecha = "Dia" if "Dia" in df.columns else "Fecha"
 
     # quito fecha y Deficiency
     empresas = [
@@ -25,13 +17,17 @@ def ejercicio4(df):
     datos = []
     for c in empresas:
     
-        validos = df.select(col(f"`{c}`").cast("double").alias("v")).dropna()
+        validos = df.select(col(f"`{c}`").cast("double").alias("v")).dropna().orderBy(col(fecha).asc())
+        
         if validos.count() == 0:
             continue
-        inicial = validos.head(1)[0][0]
-        final = validos.tail(1)[0][0]
+        
+        inicial = validos.first()["v"]
+        final = validos.orderBy(col(fecha).desc()).first()["v"]
+
         if inicial == 0:
             continue
+        
         variacion = ((final - inicial) / inicial) * 100
         datos.append((c, inicial, final, variacion))
 
@@ -52,5 +48,5 @@ def ejercicio4(df):
         .otherwise("Neutra")
     )
 
-    resultado.show(truncate=False)
+    resultado.show(30, truncate=False)
     return resultado

@@ -9,10 +9,9 @@ def ejercicio1b(spark_session):
         spark_session.read
         .option("header", True)
         .option("sep", ';')
-        .option("dateFormat","dd/MM/yyyy")
-        .csv('ibex35_close-2024.csv')
+        .option("dateFormat", "dd/MM/yyyy")
+        .csv('data/ibex35_close-2024.csv')
     )
-
     #eliminar sufijo .MC de los nombres de cada columna
 
     for i in df.columns:

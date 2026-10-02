@@ -5,4 +5,4 @@ from pyspark.sql.window import *
 from src.controlador.ControladorPrincipal import ControladorPrincipal
 
 if __name__ == "__main__":
-    controlador = ControladorPrincipal()
+    ControladorPrincipal()
