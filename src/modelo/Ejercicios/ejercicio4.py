@@ -1,43 +1,54 @@
-from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
-from pyspark.sql.types import *
-from pyspark.sql.window import *
+from pyspark.sql.window import Window
+
 
 def ejercicio4(df):
-    spark = SparkSession.builder.getOrCreate()
+    spark_session = df.sparkSession
 
     fecha = "Dia" if "Dia" in df.columns else "Fecha"
 
-    # quito fecha y Deficiency
     empresas = [
         c for c in df.columns
-        if c not in ("Fecha", "Dia") and not c.startswith("Deficiency")
+        if c not in ("Fecha", "Dia")
+        and not c.startswith("Deficiency")
     ]
 
-    datos = []
+    filas = []
+
     for c in empresas:
-    
-        validos = df.select(col(f"`{c}`").cast("double").alias("v")).dropna().orderBy(col(fecha).asc())
-        
-        if validos.count() == 0:
-            continue
-        
-        inicial = validos.first()["v"]
-        final = validos.orderBy(col(fecha).desc()).first()["v"]
+        datos = (
+            df.select(col(fecha),
+                col(f"`{c}`").cast("double").alias("valor")
+            )
+            .dropna(subset=["valor"])
+        )
 
-        if inicial == 0:
-            continue
-        
-        variacion = ((final - inicial) / inicial) * 100
-        datos.append((c, inicial, final, variacion))
+        primera = (datos.orderBy(col(fecha).asc()).first())
+        ultima = (datos.orderBy(col(fecha).desc()).first())
 
-    schema_ = StructType([
-        StructField("Empresa", StringType(), True),
-        StructField("Inicial", DoubleType(), True),
-        StructField("Final", DoubleType(), True),
-        StructField("Variación Anual", DoubleType(), True)
-    ])
-    resultado = spark.createDataFrame(datos, schema=schema_)
+        if primera is None or ultima is None:
+            print(f">>> {c}: sin datos")
+            continue
+
+        ini = primera["valor"]
+        fin = ultima["valor"]
+        if ini == 0:
+            continue
+
+        variacion = ((fin - ini) / ini) * 100
+
+        filas.append((c,float(ini),float(fin),float(variacion)))
+
+    print(f">>> Empresas procesadas: {len(filas)}")
+
+    if not filas:
+        print(">>> No hay resultados para crear")
+        return df
+
+    resultado = spark_session.createDataFrame(
+        filas,
+        ["Empresa", "Inicial", "Final", "Variación Anual"]
+    )
 
     resultado = resultado.withColumn(
         "Clasificación",
@@ -48,5 +59,30 @@ def ejercicio4(df):
         .otherwise("Neutra")
     )
 
-    resultado.show(30, truncate=False)
+    #USO DE IA: Chat GPT -> no conseguí que funcionase resultado.show(truncate = False) y le pedi ayuda para generar un print con el resultado
+    print(">>> RESULTADO EJERCICIO 4")
+    print("Empresa | Inicial | Final | Variación Anual | Clasificación")
+
+    for fila in filas:
+        empresa, inicial, final, variacion = fila
+
+        if variacion >= 15:
+            clasificacion = "Subida Fuerte"
+        elif variacion <= -15:
+            clasificacion = "Bajada Fuerte"
+        elif variacion >= 1:
+            clasificacion = "Subida"
+        elif variacion <= -1:
+            clasificacion = "Bajada"
+        else:
+            clasificacion = "Neutra"
+
+        print(
+            f"{empresa} | "
+            f"{inicial:.2f} | "
+            f"{final:.2f} | "
+            f"{variacion:.2f}% | "
+            f"{clasificacion}"
+        )
+
     return resultado
