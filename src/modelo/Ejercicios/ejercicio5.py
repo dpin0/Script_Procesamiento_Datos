@@ -3,17 +3,33 @@ from pyspark.sql.types import *
 from pyspark.sql.window import *
 
 
-#Ej5 Calcular distribución de precios de cada empresa
-# 'NombreEmpresaCuartil' q1, q2, q3 o q4
-def ejercicio5(spark_session):
-    
-    #Carga de los datos del CSV en DataFrame de PySpark
-    df = (
-        spark_session.read
-        .option("header", True)
-        .option("sep", ';')
-        .option("dateFormat","dd/MM/yyyy")
-        .csv('ibex35_close-2024.csv')
-    )
+def ejercicio5(df):
+    df = df.dropDuplicates()
 
-    df.show(1)
+    # quito fecha y Deficiency
+    empresas = [
+        c for c in df.columns
+        if c not in ("Fecha", "Dia") and not c.startswith("Deficiency")
+        and not c.endswith("Cuartil")
+    ]
+
+    for c in empresas:
+        nombre = c.replace(".MC", "")
+        q1, q2, q3 = df.approxQuantile(f"`{c}`", [0.25, 0.5, 0.75], 0.01)
+        df = df.withColumn(
+            f"{nombre}Cuartil",
+            when(col(f"`{c}`").isNull(), lit(None))
+            .when(col(f"`{c}`") <= q1, "q1")
+            .when(col(f"`{c}`") <= q2, "q2")
+            .when(col(f"`{c}`") <= q3, "q3")
+            .otherwise("q4")
+        )
+
+    print(df.head(1)[0])
+
+    df.select(
+        col("`AENA.MC`"), col("AENACuartil"),
+        col("`BBVA.MC`"), col("BBVACuartil")
+    ).show(df.count(), truncate=False)
+    
+    return df

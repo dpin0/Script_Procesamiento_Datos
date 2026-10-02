@@ -4,11 +4,9 @@ from src.modelo.Ejercicios.ejercicio1_b import ejercicio1b
 from src.modelo.Ejercicios.ejercicio1_c import ejercicio1c
 from src.modelo.Ejercicios.ejercicio2_a import ejercicio2a
 from src.modelo.Ejercicios.ejercicio2_b import ejercicio2b
-from src.modelo.Ejercicios.ejercicio3_a import ejercicio3a
-from src.modelo.Ejercicios.ejercicio3_b import ejercicio3b
+from src.modelo.Ejercicios.ejercicio3 import ejercicio3a
 from src.modelo.Ejercicios.ejercicio4 import ejercicio4
 from src.modelo.Ejercicios.ejercicio5 import ejercicio5
-from src.modelo.Ejercicios.ejercicio6 import ejercicio6
 
 def ControladorPrincipal():
     path = r".\lib\mssql-jdbc-13.4.0.jre11.jar"
@@ -19,10 +17,9 @@ def ControladorPrincipal():
     ejercicio1c(spark_session)
 
     df = ejercicio2a(df)
-    df = ejercicio3(df)
+    df = ejercicio3a(df)
     df = ejercicio4(df)
     df = ejercicio5(df)
-    df = ejercicio6(df)
 
     spark_session.stop()
 
