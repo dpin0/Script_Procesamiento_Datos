@@ -15,4 +15,6 @@ def ejercicio2b(df):
 
     print("Días de los que se tiene información: ", dias)
 
+    print("Es muy coherente que haya información de 255 días de 1 año ya que el mercado de la bolsa cierra fines de semana y festivos por lo que no habrá datos de cotización de esos días.")
+    print("Se podrían consultar las fechas de las que no se tienen datos para ver si realmente corresponden a esos días no laborables.")
     return df
