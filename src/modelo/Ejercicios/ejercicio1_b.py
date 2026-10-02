@@ -4,7 +4,7 @@ from pyspark.sql.window import *
 
 #Ej1-b
 def ejercicio1b(spark_session):
-
+    print("Ej1-b")
     df = (
         spark_session.read
         .option("header", True)

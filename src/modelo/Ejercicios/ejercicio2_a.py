@@ -4,7 +4,7 @@ from pyspark.sql.window import *
 
 #Ej2-a
 def ejercicio2a(df):
-    
+    print("Ej2-a")
     filas_0 = df.count()
     df = df.dropDuplicates()
     filas_1 = df.count()

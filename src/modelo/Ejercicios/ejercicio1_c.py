@@ -4,7 +4,7 @@ from pyspark.sql.window import *
 
 #Ej1-c
 def ejercicio1c(df):
-
+    print("Ej1-c")
     #definir strucType (tipo de dato/ columna y nombre o siglas/ empresa)
     schema = StructType([
         StructField("Fecha", DateType(), True),

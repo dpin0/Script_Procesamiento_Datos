@@ -4,6 +4,7 @@ from pyspark.sql.window import *
 
 #Ej2-b
 def ejercicio2b(df):
+    print("Ej2-b")
     dates = df.agg(
         min("Fecha").alias("Fecha inicial"),
         max("Fecha").alias("Fecha final")

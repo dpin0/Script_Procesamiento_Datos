@@ -4,7 +4,7 @@ from pyspark.sql.window import *
 
 #Ej3-a
 def ejercicio3a(df):
-
+    print("Ej3-a")
     #'Fecha' -> 'Día'
     df = df.withColumnRenamed("Fecha", "Dia")
     df.show(10)

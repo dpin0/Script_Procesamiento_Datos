@@ -2,8 +2,9 @@ from pyspark.sql.functions import *
 from pyspark.sql.types import *
 from pyspark.sql.window import *
 
-
+#Ej5
 def ejercicio5(df):
+    print("Ej5")
     df = df.dropDuplicates()
 
     # quito fecha y Deficiency

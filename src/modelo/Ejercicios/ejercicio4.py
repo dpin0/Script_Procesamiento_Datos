@@ -1,8 +1,9 @@
 from pyspark.sql.functions import *
 from pyspark.sql.window import Window
 
-
+#Ej4
 def ejercicio4(df):
+    print("Ej4")
     spark_session = df.sparkSession
 
     fecha = "Dia" if "Dia" in df.columns else "Fecha"
